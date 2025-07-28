@@ -1,0 +1,74 @@
+#wasserstein gan refactoring and recoding 
+#network training functionality will now include saving and restoring model
+#model checkpoints as a whole and not just generator weights 
+
+#instead of using a discriminator to classify or predict the probability of generated images
+#being real or fake, the WGAN changes or replaces the discriminator model with a critic
+#that scores the realness or fakeness of a given image 
+
+
+#for wgan:
+    #use a linear activation function in the output layer of the critic model instead of sigmoid 
+    #use -1 labels for real imagers and 1 labels for fake images instead of 0 and 1
+    #use wasserstein loss to train the critic and generator models
+    #constrain critic model weights to a limited range after each mini batch 
+    #update the critic model more times than the generator each iteration 
+    #use the RMSProp version of gradient descent with a small learning rate and no momentum
+    
+    
+#wasserstein loss function 
+    #generator loss function is still binary cross entropy?
+
+#structure of the code that needs to be refactored:
+    #main()
+    
+    #buildandtrain()
+    #load data -> set initial parameters (batch_size, learning rate, etc.)
+    #build discriminator (critic)
+    #build generator 
+    #build adversarial network (generator + discriminator)
+    
+    #train(models, data, params)
+    #set labels -> train loop
+        #randomly select real samples
+        #select their class labels
+        #generate noise of batch number and initial latent size specified in params
+        #generate fake labels
+        #use the generated noise to pass to the generator to create fake suvr data samples
+        #calculate the real loss by training discriminator on batch of real samples and real labels
+        #calculate the fake loss by training discriminator on batch of fake samples and fake labels 
+        #average out the real and fake loss calculated in the above step 
+        #clip the weights 
+        #average loss and accuracy for number of critics
+        #train adversarial network (generator + discriminator) on batch of fake images with label 1.0
+        #calling 'train_on_batch' for the adversarial network will update the weights of the generator as well
+        #weights of the discriminator are frozen during adversarial training, only the weights of the generator are updated 
+        
+#want to:
+    #bring the building and architecture of the model into one function 
+    #use tensorflow sequental to build and compile the models, current structure is strange to read
+    #add checkpoint to save and restore discriminator and generator models
+        #can use either checkpoints or saved model
+        #checkpoints capture the exact value of all parameters used by a model 
+        #checkpoints are only useful when the source code that will use the saved parameter values is available 
+        #seems like checkpoints are the most useful for my  case
+    
+    #"save_weights" saves a tensorflow checkpoint 
+    #the persistent state of a tensorflow model is stored in tf.variable objects 
+    #they can be constructed directly, but are often created through high-level apis like tf.keras.layers or tf.keras.Model
+    #easiest way to manage variables is by attaching them to python objects then referencing those objects 
+    #subclasses of tf.train.Checkpoint, tf.keras.layers.Layer and tf.keras.Model automatically track variables assigned to their attributes 
+    #assign trainable variables to "model.trainable_variables"
+    
+    #create the checkpoint objects:
+            #use a tf.train.Checkpoint object to manually create a checkpoint, where the objects you want to checkpoint are set as attributes on the object
+            #checkpoint manager can be helpful for managing multiple checkpoints (in this case wed have two, one checkpoint for the generator and one for the discriminator)
+            #set optimizer, dont think i need to set dataset
+            #write checkpoint after "train on batch" is called for both discriminator and adversarial network 
+            
+            #establish checkpoint manager in buildandtrain() function 
+            #pass the manager through to the train function 
+            #save the iteration number seperately to reload into the train loop to continue logging loss correctly in tensorboard 
+            
+        
+        
