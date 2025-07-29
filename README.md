@@ -17,3 +17,15 @@ Creating the pipeline is split into two parts:
           5: Successful synthetic candidates that passed the filtration process will be saved inside the scripts folder, along with stats about 
              the training process
 ![Demo](media/github_readme_part2-ezgif.com-video-to-gif-converter.gif)
+
+Plotting Scripts
+
+    To plot the KDE distributions of synthetic data versus real data, use scripts/kde_plotting.py. In our paper, we generate and average synthetic data of both classes and plot the average distributions against the distributions of the original data.
+    We generate these averages and construct their dataframes using scripts/generate_data.py. Within the sb.kdeplot() of kde_plotting.py, point the script to the dataframes you would like to plot the distributions of. 
+  
+    For violin plotting, in our paper we used scripts/violin_data.py to generate 11000 synthetic AUD samples and 16000 synthetic control samples. These sets of synthetic samples are processed in batches of 11 AUD samples and 16 control samples at a time. 
+    For each batch, 4 KL divergence values are calculated for all 8 regions of the Cingulate (synth AUD to real AUD, synth control to real control, synth AUD to real control, synth control to real AUD). 
+    scripts/divergence_plot_violin.py is then used to construct the violin plots for these calculated KL divergence values. 
+  
+    To plot the model metric performance increases caused by your successful synthetic catalysts, use scripts/metrics_plt.py and point the script towards your pickled metrics files for each model. 
+  
