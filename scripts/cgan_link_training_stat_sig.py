@@ -33,13 +33,12 @@ from lib import gan_architecture as gan
 
 # load trained cgan
 generator = load_model(
-    "C:/Users/meyer/Desktop/SUVr_Analysis/scripts/old_weights/wgan_CingulateSUVR_29999.h5"
+    "WCGAN_Catalysis_Augmentation_Pipeline/scripts/old_weights/wgan_CingulateSUVR_29999.h5"
 )
 synthetic_suvr = gan.test_generator(generator)
 
-
 # load in suvr data or only cingulate data as pandas dataframe
-raw_dataframe = pd.read_excel("C:/Users/meyer/Desktop/SUVr_Analysis/original_data/AUD_SUVR_wb_cingulate.xlsx", index_col=0)
+raw_dataframe = pd.read_excel("WCGAN_Catalysis_Augmentation_Pipeline/original_data/AUD_SUVR_wb_cingulate.xlsx", index_col=0)
 
 # map subject labels to numerical values
 raw_dataframe.loc[raw_dataframe["CLASS"] == "AUD", "CLASS"] = 1
@@ -317,16 +316,16 @@ while synth_counter <= 27 and training_iterations <= 100:
             succesful_cand_X = succesful_cand_X.append(synth_cand_x)
             
             succesful_cand_Y = succesful_cand_Y.append(y_train_intermediate[-1:])
-            succesful_cand_X.to_pickle("C:/Users/meyer/Desktop/SUVr_Analysis/saved_data/new_stat_sig_rf_cand_x_test.pkl")
-            succesful_cand_Y.to_pickle("C:/Users/meyer/Desktop/SUVr_Analysis/saved_data/new_stat_sig_rf_cand_y_test.pkl")
+            succesful_cand_X.to_pickle("new_stat_sig_rf_cand_x_test.pkl")
+            succesful_cand_Y.to_pickle("new_stat_sig_rf_cand_y_test.pkl")
 
-            with open("C:/Users/meyer/Desktop/SUVr_Analysis/saved_data/new_stat_sig_rf_accuracy_test.pkl", 'wb') as f:
+            with open("new_stat_sig_rf_accuracy_test.pkl", 'wb') as f:
                 pickle.dump(accuracy_list, f)
             
-            with open("C:/Users/meyer/Desktop/SUVr_Analysis/saved_data/new_stat_sig_rf_sensitivity_test.pkl", 'wb') as f:
+            with open("new_stat_sig_rf_sensitivity_test.pkl", 'wb') as f:
                 pickle.dump(sensitivity_list, f)
 
-            with open("C:/Users/meyer/Desktop/SUVr_Analysis/saved_data/new_stat_sig_rf_specificity_test.pkl", 'wb') as f:
+            with open("new_stat_sig_rf_specificity_test.pkl", 'wb') as f:
                 pickle.dump(specificity_list, f)
 
             print("ACCURACY INCREASED, SYNTHETIC CANDIDATE ADDED")
@@ -376,24 +375,23 @@ print("McNemar's test results:")
 print("  Statistic =", result.statistic)
 print("  p-value   =", result.pvalue)
 
-
 #save stats from test
-with open("C:/Users/meyer/Desktop/SUVr_Analysis/saved_data/new_stat_sig_rf_mcnemar_pred_real.pkl", 'wb') as f:
+with open("new_stat_sig_rf_mcnemar_pred_real.pkl", 'wb') as f:
     pickle.dump(y_pred_real, f)
 
-with open("C:/Users/meyer/Desktop/SUVr_Analysis/saved_data/new_stat_sig_rf_mcnemar_pred_augment.pkl", 'wb') as f:
+with open("new_stat_sig_rf_mcnemar_pred_augment.pkl", 'wb') as f:
     pickle.dump(y_pred_augmented, f)
 
-with open("C:/Users/meyer/Desktop/SUVr_Analysis/saved_data/new_stat_sig_rf_mcnemar_ground_truth.pkl", 'wb') as f:
+with open("new_stat_sig_rf_mcnemar_ground_truth.pkl", 'wb') as f:
     pickle.dump(y_true, f)
 
-with open("C:/Users/meyer/Desktop/SUVr_Analysis/saved_data/new_stat_sig_rf_mcnemar_table.pkl", 'wb') as f:
+with open("new_stat_sig_rf_mcnemar_table.pkl", 'wb') as f:
     pickle.dump(table, f)
 
-with open("C:/Users/meyer/Desktop/SUVr_Analysis/saved_data/new_stat_sig_rf_mcnemar_p_value.pkl", 'wb') as f:
+with open("new_stat_sig_rf_mcnemar_p_value.pkl", 'wb') as f:
     pickle.dump(result.pvalue, f)
 
-with open("C:/Users/meyer/Desktop/SUVr_Analysis/saved_data/new_stat_sig_rf_mcnemar_statistic.pkl", 'wb') as f:
+with open("new_stat_sig_rf_mcnemar_statistic.pkl", 'wb') as f:
     pickle.dump(result.statistic, f)
             
 if result.pvalue < 0.05:
