@@ -4,7 +4,9 @@ scripts/js_divergence.py
 scripts/js_violin.py
 scripts/**/*.pkl
 scripts/**/*.pickle
+scripts/baseline_data.py
 scripts/success_divergence.py
+scripts/cgan_link_training.py
 
 
 

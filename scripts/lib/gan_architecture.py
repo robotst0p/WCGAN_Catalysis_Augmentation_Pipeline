@@ -16,7 +16,8 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.layers import concatenate
 from tensorflow.keras import utils
 from tensorflow.keras.utils import to_categorical
-#import tensorflow as tf
+
+import tensorflow as tf
 import tensorflow.keras.backend as K
 import tensorflow.keras.layers as tl
 
@@ -64,7 +65,6 @@ def generator(inputs,labels,
 
     x = Lambda(lambda x: x[:,1])(x)
 
-    # generator output is the synthesized somatic mutation profile x
     return  Model([inputs, labels], x, name='generator')
 
 #create generator model for gan in more tensorthonic way 
@@ -77,9 +77,6 @@ def make_generator_model(inputs, labels, n_of_suvr, activation = 'sigmoid'):
     model.add(layers.LeakyReLU(0.2))
     model.add(layers.Reshape(2,n_of_suvr))
     
-    #activation seems always to bee softmax, can change the last layer if 
-    #we want to change the final activation layer
-    
     model.add(layers.Softmax(axis = 1))
     
     #final lambda layer
@@ -89,10 +86,6 @@ def make_generator_model(inputs, labels, n_of_suvr, activation = 'sigmoid'):
     
 #create the discriminator model in more tensorthonic way
 def make_discriminator_model(inputs, labels, n_of_suvr, activation = 'sigmoid'):
-    #do the concatenation of x and y before passing the values to the discriminator 
-    #these functions should only be used for the actual architecture and construction of the 
-    #individual models/networks themselves
-    
     model = tf.keras.Sequential()
     model.add(layers.Dense(512))
     model.add(layers.LeakyReLU(0.2))
@@ -105,8 +98,6 @@ def make_discriminator_model(inputs, labels, n_of_suvr, activation = 'sigmoid'):
     #add final output layer and then activation function
     model.add(layers.Dense(1))
     
-    #pretty sure the activation function for the last layer will always be sigmoid
-    #can change the final activation layer if it is not 
     model.add(layers.Activation('sigmoid'))
     
     return model
@@ -137,15 +128,6 @@ def discriminator(inputs,labels,
         print(activation)
         outputs = Activation(activation)(outputs)
     
-    
-    #labels= Lambda(lambda labels: labels[:,:]) (labels)
-    #outputs= Lambda(lambda outputs: outputs[:,:]) (outputs)
-    
-    #ll = tl.Layer ()(labels)
-    #op = tl.Layer ()(outputs)
-    
-    #return  Model([inputs, K.constant(labels.astype('int'))], outputs, name='discriminator')    
-    #return Model([inputs, ll], op, name='discriminator')
     return  Model([inputs, labels], outputs, name='discriminator')
     
 

@@ -5,8 +5,6 @@ from lib import gan_architecture as gan
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 import pickle
-from scipy.special import rel_entr
-from scipy.stats import entropy
 import numpy as np
 import seaborn as sb
 import matplotlib.pyplot as plt

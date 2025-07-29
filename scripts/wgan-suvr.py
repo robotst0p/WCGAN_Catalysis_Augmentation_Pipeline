@@ -1,6 +1,6 @@
 '''
 
-Trains WGAN on lung somatic mutation profiles using Tensorflow Keras
+Trains WGAN on SUVR PET/MRI data 
 
 This code follows "Advanced Deep Learning with Keras" training of WGAN at
 https://github.com/PacktPublishing/Advanced-Deep-Learning-with-Keras
@@ -26,7 +26,6 @@ import numpy as np
 import argparse
 import pandas as pd
 import datetime
-
 
 from lib import gan_architecture as gan
         
@@ -58,7 +57,7 @@ def train(models, data, params):
     generator, discriminator, adversarial = models
     x_train, y_train = data
     
-    writer = tf.summary.create_file_writer("C:/Users/meyer/Desktop/SUVr_Analysis/logs/log_cingulate_batch3_latent4_lr-5e-5")
+    writer = tf.summary.create_file_writer("WCGAN_Catalysis_Augmentation_Pipeline/logs/log_cingulate_batch3_latent4_lr-5e-5")
 
     # network parameters
     (batch_size, latent_size, n_critic, clip_value, train_steps, model_name) = params
@@ -171,7 +170,7 @@ def wasserstein_loss(y_label, y_pred):
 
 
 def build_and_train_models():
-    raw_dataframe = pd.read_excel('C:/Users/meyer/Desktop/SUVr_Analysis/original_data/AUD_SUVR_wb_cingulate.xlsx') #,index_col = 0
+    raw_dataframe = pd.read_excel('WCGAN_Catalysis_Augmentation_Pipeline/original_data/AUD_SUVR_wb_cingulate.xlsx') #,index_col = 0
 
     
     raw_dataframe.loc[raw_dataframe["CLASS"] == "AUD", "CLASS"] = 1
