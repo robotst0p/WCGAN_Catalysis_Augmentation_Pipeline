@@ -16,4 +16,4 @@ Creating the pipeline is split into two parts:
              WCGAN is set to produce synthetic samples in batches of 100 (100 training iterations means 100*100 total synthetic data points tested.
           5: Successful synthetic candidates that passed the filtration process will be saved inside the scripts folder, along with stats about 
              the training process
-            
+![Demo](media/github_readme_part2-ezgif.com-video-to-gif-converter.gif)
