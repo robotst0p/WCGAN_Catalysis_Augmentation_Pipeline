@@ -1,4 +1,4 @@
-Repository for Neuroimaging Data Catalysis Augmentation Pipeline Described in Paper: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5240695
+Repository for Neuroimaging Data Catalysis Augmentation Pipeline Described in Paper: https://www.sciencedirect.com/science/article/pii/S2772528625000408?via%3Dihub
 
 Creating the pipeline is split into two parts:
   Part 1: Training of the WCGAN on SUVR data
